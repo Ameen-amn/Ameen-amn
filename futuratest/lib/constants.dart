@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const klabelStyle = TextStyle(
-  fontSize: 14,
+  fontSize: 13.9,
   color: Colors.black,
 );
 
