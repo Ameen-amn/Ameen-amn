@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:full_screen_image/full_screen_image.dart';
 
 class FullScreen extends StatelessWidget {
-  static final routeName = '/FullScreen';
+  static const routeName = '/FullScreen';
   const FullScreen({super.key});
 
   @override

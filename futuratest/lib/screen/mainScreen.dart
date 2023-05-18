@@ -4,19 +4,36 @@ import 'package:futuratest/screen/fullScreen.dart';
 import 'package:provider/provider.dart';
 import '../provider/apicall.dart';
 
-class MainScreen extends StatelessWidget {
-  static final routeName = '/MainScreen';
+class MainScreen extends StatefulWidget {
+  static const routeName = '/MainScreen';
   MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   TextEditingController searchText = TextEditingController();
-  ScrollController _scrollController = ScrollController();
+
+  final ScrollController _scrollController = ScrollController();
+
+  late ApiCall apicall;
+
+  List<String> imageUrl = [];
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    apicall = Provider.of<ApiCall>(context);
+    imageUrl = apicall.imageUrl;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final apicall = Provider.of<ApiCall>(context);
-    final List imageUrl = apicall.imageUrl;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Futura Labs"),
+        title: const Text("Futura Labs"),
         centerTitle: true,
       ),
       body: Column(
@@ -50,14 +67,14 @@ class MainScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: GestureDetector(
                     onTap: () {
-                      final String url = apicall.imageUrl[i];
-                      print("passing url:${url.toString()}");
+                      final String url = imageUrl[i];
+
                       Navigator.of(context)
                           .pushNamed(FullScreen.routeName, arguments: url);
                     },
-                    child: Image.network(apicall.imageUrl[i])),
+                    child: Image.network(imageUrl[i])),
               ),
-              itemCount: apicall.imageUrl.length,
+              itemCount: imageUrl.length,
             ),
           )
         ],
