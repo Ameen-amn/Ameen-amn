@@ -18,7 +18,8 @@ class _MainScreenState extends State<MainScreen> {
   final ScrollController _scrollController = ScrollController();
 
   late ApiCall apicall;
-
+  List<String> dummy = [];
+  int _currenMax = 5;
   List<String> imageUrl = [];
 
   @override
@@ -27,6 +28,26 @@ class _MainScreenState extends State<MainScreen> {
     super.didChangeDependencies();
     apicall = Provider.of<ApiCall>(context);
     imageUrl = apicall.imageUrl;
+    if (imageUrl.isNotEmpty) {
+      print("image url is not empty");
+      dummy = List.generate(_currenMax, (index) => imageUrl[index]);
+      for (int i = 0; i < dummy.length; i++) {
+        print({"dum item:${dummy[i]}"});
+      }
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          _getMoreList();
+        }
+      });
+    }
+  }
+
+  _getMoreList() {
+    for (int i = _currenMax; i < _currenMax + 5; i++) {
+      dummy.add(imageUrl[i]);
+    }
+    _currenMax = _currenMax + 5;
   }
 
   @override
